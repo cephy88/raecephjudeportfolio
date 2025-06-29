@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}About - RJ Portfolio{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <h1 class="display-5 fw-bold text-center mb-5">About Raeceph Jude Sayson</h1>
+                
+                <div class="row align-items-center mb-5">
+                    <div class="col-md-5 text-center mb-4 mb-md-0">
+                        <img src="{{ url_for('static', filename='images/profile.png') }}" 
+                             alt="Raeceph Jude Sayson Profile" class="img-fluid profile-png-about">
+                    </div>
+                    <div class="col-md-7">
+                        <h3 class="mb-3">Senior AI/ML Engineer</h3>
+                        <p class="lead">
+                            Experienced AI/ML Engineer and Backend Developer with expertise in designing and deploying 
+                            scalable machine learning systems, including video classification, deep learning, and 
+                            Retrieval-Augmented Generation (RAG) systems. Skilled in optimizing workflows and 
+                            automating processes, achieving significant efficiency gains.
+                        </p>
+                        <p>
+                            Proficient in TensorFlow, PyTorch, Hugging Face, and cloud platforms (AWS, GCP, Azure). 
+                            Strong problem-solving abilities with a proven track record in leading technical projects 
+                            and creating impactful AI solutions.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row g-4 mb-5">
+                    <div class="col-md-6">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-code text-primary me-2"></i>
+                                    Technical Expertise
+                                </h5>
+                                <ul class="list-unstyled">
+                                    <li><strong>Languages:</strong> Python (6+ years), SQL, Bash, Java, C#</li>
+                                    <li><strong>ML/DL Frameworks:</strong> TensorFlow, PyTorch, Keras, Scikit-learn</li>
+                                    <li><strong>LLM Tools:</strong> Hugging Face, Ollama, OpenAI API, LangChain</li>
+                                    <li><strong>Cloud Platforms:</strong> AWS, GCP, Azure (SageMaker, Vertex AI)</li>
+                                    <li><strong>Specializations:</strong> RAG Systems, Computer Vision, NLP</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <i class="fas fa-graduation-cap text-primary me-2"></i>
+                                    Education & Achievements
+                                </h5>
+                                <p>
+                                    <strong>Bachelor of Science in Computer Science</strong><br>
+                                    University of Negros Occidental-Recoletos, Bacolod City, Philippines (2018)
+                                </p>
+                                <p>
+                                    <strong>Key Achievements:</strong>
+                                </p>
+                                <ul class="list-unstyled">
+                                    <li>• 30% reduction in document processing times with RAG systems</li>
+                                    <li>• 80% reduction in manual effort through automation</li>
+                                    <li>• 90% accuracy in ESG data predictions</li>
+                                    <li>• Led technical teams across multiple international projects</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <h3 class="mb-4">Let's Work Together</h3>
+                    <p class="lead mb-4">
+                        I'm always interested in new opportunities and challenging projects. 
+                        Feel free to reach out if you'd like to collaborate!
+                    </p>
+                    <a href="{{ url_for('contact') }}" class="btn btn-primary btn-lg">
+                        <i class="fas fa-envelope me-2"></i>Get In Touch
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
