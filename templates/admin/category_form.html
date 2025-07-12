@@ -113,31 +113,3 @@
     </div>
 </div>
 {% endblock %}
-
-{% block scripts %}
-<script>
-    // Live preview updates
-    const nameInput = document.getElementById('name');
-    const descriptionInput = document.getElementById('description');
-    const colorInput = document.getElementById('color');
-    const previewBadge = document.getElementById('preview-badge');
-    const previewDescription = document.getElementById('preview-description');
-
-    function updatePreview() {
-        const name = nameInput.value || 'Category Name';
-        const description = descriptionInput.value || 'Category description will appear here';
-        const color = colorInput.value || '#007bff';
-        
-        previewBadge.textContent = name;
-        previewBadge.style.backgroundColor = color;
-        previewDescription.textContent = description;
-    }
-
-    nameInput.addEventListener('input', updatePreview);
-    descriptionInput.addEventListener('input', updatePreview);
-    colorInput.addEventListener('input', updatePreview);
-
-    // Initialize preview
-    updatePreview();
-</script>
-{% endblock %>
