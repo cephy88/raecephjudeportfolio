@@ -1,3 +1,4 @@
+<!-- 2. UPDATE templates/admin/post_form.html -->
 <!-- templates/admin/post_form.html -->
 {% extends "admin/base.html" %}
 
@@ -6,7 +7,7 @@
 {% block content %}
 <div class="row mb-4">
     <div class="col">
-        <h1 class="h3 mb-0">{{ title }}</h1>
+        <h1 class="h3 mb-0 text-white">{{ title }}</h1>
         <p class="text-muted">
             {% if post %}
             Edit your blog post
@@ -22,19 +23,19 @@
     </div>
 </div>
 
-<form method="POST" novalidate>
+<form method="POST" novalidate id="post-form">
     {{ form.hidden_tag() }}
     
     <div class="row">
         <div class="col-lg-8">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="mb-0">Post Content</h5>
+                    <h5 class="mb-0 text-white">Post Content</h5>
                 </div>
                 <div class="card-body">
                     <!-- Title -->
                     <div class="mb-3">
-                        {{ form.title.label(class="form-label") }}
+                        {{ form.title.label(class="form-label text-white") }}
                         {{ form.title(class="form-control" + (" is-invalid" if form.title.errors else "")) }}
                         {% if form.title.errors %}
                         <div class="invalid-feedback">
@@ -45,8 +46,12 @@
 
                     <!-- Content -->
                     <div class="mb-3">
-                        {{ form.content.label(class="form-label") }}
-                        {{ form.content(class="form-control" + (" is-invalid" if form.content.errors else "")) }}
+                        {{ form.content.label(class="form-label text-white") }}
+                        <div id="editor-container">
+                            <div id="editor"></div>
+                        </div>
+                        <!-- Hidden textarea for form submission -->
+                        {{ form.content(style="display: none;", id="content") }}
                         {% if form.content.errors %}
                         <div class="invalid-feedback">
                             {% for error in form.content.errors %}{{ error }}{% endfor %}
@@ -56,7 +61,7 @@
 
                     <!-- Excerpt -->
                     <div class="mb-3">
-                        {{ form.excerpt.label(class="form-label") }}
+                        {{ form.excerpt.label(class="form-label text-white") }}
                         <small class="text-muted">(Optional short description for post previews)</small>
                         {{ form.excerpt(class="form-control", rows="3") }}
                         {% if form.excerpt.errors %}
@@ -72,21 +77,21 @@
         <div class="col-lg-4">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="mb-0">Post Settings</h5>
+                    <h5 class="mb-0 text-white">Post Settings</h5>
                 </div>
                 <div class="card-body">
                     <!-- Status -->
                     <div class="mb-3">
-                        {{ form.status.label(class="form-label") }}
+                        {{ form.status.label(class="form-label text-white") }}
                         {{ form.status(class="form-select") }}
                     </div>
 
                     <!-- Category -->
                     <div class="mb-3">
-                        {{ form.category_id.label(class="form-label") }}
+                        {{ form.category_id.label(class="form-label text-white") }}
                         {{ form.category_id(class="form-select") }}
                         <div class="form-text">
-                            <a href="{{ url_for('admin_category_new') }}" class="text-decoration-none">
+                            <a href="{{ url_for('admin_category_new') }}" class="text-decoration-none text-primary">
                                 <i class="fas fa-plus me-1"></i>Add new category
                             </a>
                         </div>
@@ -94,7 +99,7 @@
 
                     <!-- Featured Image -->
                     <div class="mb-3">
-                        {{ form.featured_image.label(class="form-label") }}
+                        {{ form.featured_image.label(class="form-label text-white") }}
                         <small class="text-muted">(Optional image URL)</small>
                         {{ form.featured_image(class="form-control") }}
                     </div>
@@ -133,28 +138,117 @@
 {% endblock %}
 
 {% block scripts %}
+<style>
+/* CKEditor 5 custom styling for dark theme */
+.ck-editor__editable {
+    min-height: 400px;
+    background-color: #fff;
+    color: #333;
+    border-radius: 0.375rem;
+}
+
+.ck-toolbar {
+    border-radius: 0.375rem 0.375rem 0 0;
+}
+
+#editor-container {
+    border-radius: 0.375rem;
+    overflow: hidden;
+    border: 1px solid #495057;
+}
+</style>
+
 <script>
-    // Initialize CKEditor
-    CKEDITOR.replace('content', {
-        height: 400,
-        toolbar: [
-            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike'] },
-            { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote'] },
-            { name: 'links', items: ['Link', 'Unlink'] },
-            { name: 'insert', items: ['Image', 'Table', 'HorizontalRule'] },
-            '/',
-            { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
-            { name: 'colors', items: ['TextColor', 'BGColor'] },
-            { name: 'tools', items: ['Maximize', 'ShowBlocks'] },
-            { name: 'document', items: ['Source'] }
-        ],
-        removeButtons: 'Save,NewPage,Preview,Print,Templates,Cut,Copy,Paste,PasteText,PasteFromWord,Undo,Redo,Find,Replace,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,CopyFormatting,RemoveFormat,CreateDiv,Language,BidiRtl,BidiLtr,Flash,Smiley,SpecialChar,PageBreak,Iframe,About'
+let editorInstance;
+
+// Initialize CKEditor 5
+ClassicEditor
+    .create(document.querySelector('#editor'), {
+        toolbar: {
+            items: [
+                'heading',
+                '|',
+                'bold',
+                'italic',
+                'underline',
+                '|',
+                'link',
+                'bulletedList',
+                'numberedList',
+                '|',
+                'outdent',
+                'indent',
+                '|',
+                'blockQuote',
+                'insertTable',
+                '|',
+                'imageUpload',
+                '|',
+                'undo',
+                'redo',
+                '|',
+                'sourceEditing'
+            ]
+        },
+        heading: {
+            options: [
+                { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
+            ]
+        },
+        image: {
+            toolbar: [
+                'imageStyle:inline',
+                'imageStyle:block',
+                'imageStyle:side',
+                '|',
+                'toggleImageCaption',
+                'imageTextAlternative'
+            ]
+        },
+        table: {
+            contentToolbar: [
+                'tableColumn',
+                'tableRow',
+                'mergeTableCells'
+            ]
+        }
+    })
+    .then(editor => {
+        editorInstance = editor;
+        
+        // Set initial content if editing existing post
+        const hiddenTextarea = document.querySelector('#content');
+        if (hiddenTextarea.value) {
+            editor.setData(hiddenTextarea.value);
+        }
+        
+        // Update hidden textarea when editor content changes
+        editor.model.document.on('change:data', () => {
+            hiddenTextarea.value = editor.getData();
+        });
+        
+        console.log('CKEditor 5 initialized successfully');
+    })
+    .catch(error => {
+        console.error('Error initializing CKEditor 5:', error);
     });
 
-    // Auto-generate slug from title
-    document.getElementById('title').addEventListener('input', function() {
-        // This is just for display - actual slug generation happens in backend
-        console.log('Title changed:', this.value);
-    });
+// Handle form submission
+document.querySelector('#post-form').addEventListener('submit', function(e) {
+    if (editorInstance) {
+        // Update the hidden textarea with editor content
+        document.querySelector('#content').value = editorInstance.getData();
+    }
+});
+
+// Handle page unload
+window.addEventListener('beforeunload', function() {
+    if (editorInstance) {
+        editorInstance.destroy();
+    }
+});
 </script>
 {% endblock %}
