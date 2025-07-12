@@ -1,5 +1,8 @@
 /* Custom CSS for RJ Portfolio */
 
+/* ============================================
+   CSS VARIABLES & ROOT STYLES
+============================================ */
 :root {
     --primary-color: #007bff;
     --secondary-color: #6c757d;
@@ -19,6 +22,9 @@
     transition: var(--transition);
 }
 
+/* ============================================
+   BASE STYLES
+============================================ */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
@@ -26,7 +32,9 @@ body {
     margin: 0;
 }
 
-/* Dark Theme Styles */
+/* ============================================
+   DARK THEME STYLES
+============================================ */
 [data-theme="dark"] {
     background-color: #1a1a1a;
     color: #f8f9fa;
@@ -47,7 +55,9 @@ body {
     color: #adb5bd !important;
 }
 
-/* Navigation */
+/* ============================================
+   NAVIGATION
+============================================ */
 .navbar-brand {
     font-size: 1.5rem;
     font-weight: 700;
@@ -63,7 +73,9 @@ body {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Hero Section */
+/* ============================================
+   HERO SECTION
+============================================ */
 .hero-section {
     background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
     color: white;
@@ -89,6 +101,7 @@ body {
     z-index: 2;
 }
 
+/* Profile Images */
 .profile-image img {
     max-width: 300px;
     transition: var(--transition);
@@ -98,7 +111,6 @@ body {
     transform: scale(1.05);
 }
 
-/* PNG Profile Images */
 .profile-png {
     width: 600px !important;
     max-width: none !important;
@@ -110,7 +122,6 @@ body {
     height: auto;
 }
 
-/* Ensure profile image container doesn't restrict size */
 .profile-image {
     width: 100%;
     display: flex;
@@ -118,7 +129,6 @@ body {
     overflow: visible;
 }
 
-/* Override Bootstrap column constraints for hero image */
 .hero-section .col-lg-6 {
     overflow: visible;
 }
@@ -130,7 +140,9 @@ body {
     }
 }
 
-/* Cards */
+/* ============================================
+   CARDS & PROJECT CARDS
+============================================ */
 .card {
     border: none;
     border-radius: 12px;
@@ -172,7 +184,9 @@ body {
     box-shadow: 0 15px 35px rgba(0, 123, 255, 0.1);
 }
 
-/* Tech Stack Badges */
+/* ============================================
+   TECH STACK & BADGES
+============================================ */
 .tech-stack {
     margin-top: 1rem;
 }
@@ -182,7 +196,9 @@ body {
     padding: 0.35rem 0.65rem;
 }
 
-/* Skills Section */
+/* ============================================
+   SKILLS SECTION
+============================================ */
 .skills-section .card {
     transition: var(--transition);
 }
@@ -196,7 +212,9 @@ body {
     color: rgba(255, 255, 255, 0.8) !important;
 }
 
-/* Buttons */
+/* ============================================
+   BUTTONS
+============================================ */
 .btn {
     border-radius: 8px;
     font-weight: 500;
@@ -224,7 +242,9 @@ body {
     transform: translateY(-2px);
 }
 
-/* Social Links */
+/* ============================================
+   SOCIAL LINKS
+============================================ */
 .social-links a {
     font-size: 1.5rem;
     transition: var(--transition);
@@ -235,7 +255,170 @@ body {
     transform: translateY(-2px);
 }
 
-/* Responsive Design */
+/* ============================================
+   ANIMATIONS & EFFECTS
+============================================ */
+.fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+}
+
+/* ============================================
+   LAYOUT UTILITIES
+============================================ */
+.py-5,
+.container,
+.row,
+.col-lg-4,
+.col-md-6 {
+    overflow: visible;
+}
+
+/* ============================================
+   ADMIN LAYOUT STYLES
+============================================ */
+.admin-layout {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--dark-color);
+}
+
+/* Admin Sidebar */
+.admin-sidebar {
+    background: linear-gradient(180deg, var(--dark-color) 0%, #1a1d20 100%);
+    border-right: 1px solid #495057;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    z-index: 1000;
+}
+
+.admin-sidebar-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #495057;
+}
+
+/* Admin Content Area */
+.admin-content {
+    margin-left: 250px;
+    min-height: 100vh;
+    background-color: #1a1d20;
+}
+
+.admin-header {
+    background: var(--dark-color);
+    border-bottom: 1px solid #495057;
+    padding: 1.5rem 2rem;
+}
+
+/* Admin Navigation */
+.admin-nav {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-nav-link {
+    color: #adb5bd !important;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    margin: 0.2rem 0;
+    text-decoration: none;
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+}
+
+.admin-nav-link:hover {
+    background-color: var(--primary-color);
+    color: white !important;
+    transform: translateX(5px);
+}
+
+.admin-nav-divider {
+    border-color: #495057;
+    margin: 1rem 0;
+}
+
+/* Admin Cards */
+.admin-layout .card {
+    background-color: var(--dark-color);
+    border: 1px solid #495057;
+    transition: var(--transition);
+}
+
+.admin-layout .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Admin Stats Cards */
+.stat-card {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #0056b3 100%);
+    border: none;
+    color: white;
+    transition: var(--transition);
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 123, 255, 0.2);
+}
+
+.stat-card.bg-success {
+    background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+}
+
+.stat-card.bg-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%);
+}
+
+.stat-card.bg-info {
+    background: linear-gradient(135deg, #17a2b8 0%, #138496 100%);
+}
+
+/* Admin Tables */
+.admin-layout .table-dark {
+    background-color: var(--dark-color);
+}
+
+/* ============================================
+   DARK THEME ADMIN COMPATIBILITY
+============================================ */
+[data-theme="dark"] .admin-layout {
+    background-color: #1a1a1a;
+}
+
+[data-theme="dark"] .admin-sidebar {
+    background: linear-gradient(180deg, #2d2d2d 0%, #1a1a1a 100%);
+}
+
+[data-theme="dark"] .admin-header {
+    background-color: #2d2d2d;
+}
+
+[data-theme="dark"] .admin-layout .card {
+    background-color: #343a40;
+}
+
+/* ============================================
+   RESPONSIVE DESIGN
+============================================ */
 @media (max-width: 768px) {
     .hero-section {
         padding: 2rem 0;
@@ -270,38 +453,3 @@ body {
         width: 100%;
     }
 }
-
-/* Projects Section */
-.py-5 {
-    overflow: visible;
-}
-
-.container {
-    overflow: visible;
-}
-
-.row {
-    overflow: visible;
-}
-
-.col-lg-4, .col-md-6 {
-    overflow: visible;
-}
-.fade-in {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.6s ease;
-}
-
-.fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Loading Animation */
-.loading {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    border-radius

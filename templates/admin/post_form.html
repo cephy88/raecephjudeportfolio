@@ -1,0 +1,160 @@
+<!-- templates/admin/post_form.html -->
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title }} - Admin{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1 class="h3 mb-0">{{ title }}</h1>
+        <p class="text-muted">
+            {% if post %}
+            Edit your blog post
+            {% else %}
+            Create a new blog post
+            {% endif %}
+        </p>
+    </div>
+    <div class="col-auto">
+        <a href="{{ url_for('admin_posts') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Back to Posts
+        </a>
+    </div>
+</div>
+
+<form method="POST" novalidate>
+    {{ form.hidden_tag() }}
+    
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Post Content</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Title -->
+                    <div class="mb-3">
+                        {{ form.title.label(class="form-label") }}
+                        {{ form.title(class="form-control" + (" is-invalid" if form.title.errors else "")) }}
+                        {% if form.title.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.title.errors %}{{ error }}{% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Content -->
+                    <div class="mb-3">
+                        {{ form.content.label(class="form-label") }}
+                        {{ form.content(class="form-control" + (" is-invalid" if form.content.errors else "")) }}
+                        {% if form.content.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.content.errors %}{{ error }}{% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Excerpt -->
+                    <div class="mb-3">
+                        {{ form.excerpt.label(class="form-label") }}
+                        <small class="text-muted">(Optional short description for post previews)</small>
+                        {{ form.excerpt(class="form-control", rows="3") }}
+                        {% if form.excerpt.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.excerpt.errors %}{{ error }}{% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">Post Settings</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Status -->
+                    <div class="mb-3">
+                        {{ form.status.label(class="form-label") }}
+                        {{ form.status(class="form-select") }}
+                    </div>
+
+                    <!-- Category -->
+                    <div class="mb-3">
+                        {{ form.category_id.label(class="form-label") }}
+                        {{ form.category_id(class="form-select") }}
+                        <div class="form-text">
+                            <a href="{{ url_for('admin_category_new') }}" class="text-decoration-none">
+                                <i class="fas fa-plus me-1"></i>Add new category
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Featured Image -->
+                    <div class="mb-3">
+                        {{ form.featured_image.label(class="form-label") }}
+                        <small class="text-muted">(Optional image URL)</small>
+                        {{ form.featured_image(class="form-control") }}
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>
+                            {% if post %}Update Post{% else %}Create Post{% endif %}
+                        </button>
+                        
+                        {% if post and post.status == 'published' %}
+                        <a href="{{ url_for('blog_post', slug=post.slug) }}" 
+                           class="btn btn-outline-secondary" target="_blank">
+                            <i class="fas fa-external-link-alt me-2"></i>View Post
+                        </a>
+                        {% endif %}
+                        
+                        <a href="{{ url_for('admin_posts') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-times me-2"></i>Cancel
+                        </a>
+                    </div>
+
+                    {% if post %}
+                    <hr>
+                    <small class="text-muted">
+                        <strong>Created:</strong> {{ post.created_at.strftime('%B %d, %Y at %I:%M %p') }}<br>
+                        <strong>Last Updated:</strong> {{ post.updated_at.strftime('%B %d, %Y at %I:%M %p') }}
+                    </small>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Initialize CKEditor
+    CKEDITOR.replace('content', {
+        height: 400,
+        toolbar: [
+            { name: 'basicstyles', items: ['Bold', 'Italic', 'Underline', 'Strike'] },
+            { name: 'paragraph', items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote'] },
+            { name: 'links', items: ['Link', 'Unlink'] },
+            { name: 'insert', items: ['Image', 'Table', 'HorizontalRule'] },
+            '/',
+            { name: 'styles', items: ['Styles', 'Format', 'Font', 'FontSize'] },
+            { name: 'colors', items: ['TextColor', 'BGColor'] },
+            { name: 'tools', items: ['Maximize', 'ShowBlocks'] },
+            { name: 'document', items: ['Source'] }
+        ],
+        removeButtons: 'Save,NewPage,Preview,Print,Templates,Cut,Copy,Paste,PasteText,PasteFromWord,Undo,Redo,Find,Replace,SelectAll,Scayt,Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,CopyFormatting,RemoveFormat,CreateDiv,Language,BidiRtl,BidiLtr,Flash,Smiley,SpecialChar,PageBreak,Iframe,About'
+    });
+
+    // Auto-generate slug from title
+    document.getElementById('title').addEventListener('input', function() {
+        // This is just for display - actual slug generation happens in backend
+        console.log('Title changed:', this.value);
+    });
+</script>
+{% endblock %}

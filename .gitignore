@@ -1,9 +1,25 @@
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
+# NEVER commit these files with passwords/secrets
 .env
+.flaskenv
+instance/
+*.db
+*.sqlite
+
+# Virtual environment
 venv/
 env/
+__pycache__/
+*.pyc
+
+# IDE and OS files
 .vscode/
+.idea/
 .DS_Store
+*.log
+*.tmp
+
+# Any files with "secret" or "password" in the name
+*secret*
+*password*
+*key*
+config_local.py

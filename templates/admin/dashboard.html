@@ -1,0 +1,167 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Dashboard - Admin{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+{% block page_subtitle %}Welcome back! Here's what's happening with your blog.{% endblock %}
+
+{% block content %}
+<!-- Stats Cards -->
+<div class="row g-4 mb-5">
+    <div class="col-sm-6 col-xl-3">
+        <div class="card stat-card text-white h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="h2 mb-1 fw-bold">{{ stats.total_posts }}</div>
+                        <div class="small opacity-75">Total Posts</div>
+                    </div>
+                    <div class="fa-3x opacity-50">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-sm-6 col-xl-3">
+        <div class="card stat-card bg-success text-white h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="h2 mb-1 fw-bold">{{ stats.published_posts }}</div>
+                        <div class="small opacity-75">Published</div>
+                    </div>
+                    <div class="fa-3x opacity-50">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-sm-6 col-xl-3">
+        <div class="card stat-card bg-warning text-white h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="h2 mb-1 fw-bold">{{ stats.draft_posts }}</div>
+                        <div class="small opacity-75">Drafts</div>
+                    </div>
+                    <div class="fa-3x opacity-50">
+                        <i class="fas fa-edit"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-sm-6 col-xl-3">
+        <div class="card stat-card bg-info text-white h-100">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <div class="h2 mb-1 fw-bold">{{ stats.categories }}</div>
+                        <div class="small opacity-75">Categories</div>
+                    </div>
+                    <div class="fa-3x opacity-50">
+                        <i class="fas fa-tags"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Posts -->
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0 text-white">Recent Posts</h5>
+                <a href="{{ url_for('admin_posts') }}" class="btn btn-outline-primary btn-sm">View All</a>
+            </div>
+            <div class="card-body">
+                {% if recent_posts %}
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Status</th>
+                                <th>Category</th>
+                                <th>Updated</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for post in recent_posts %}
+                            <tr>
+                                <td>
+                                    <strong>{{ post.title }}</strong>
+                                </td>
+                                <td>
+                                    <span class="badge {% if post.status == 'published' %}bg-success{% else %}bg-warning{% endif %}">
+                                        {{ post.status.title() }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% if post.category %}
+                                    <span class="badge" style="background-color: {{ post.category.color }}">
+                                        {{ post.category.name }}
+                                    </span>
+                                    {% else %}
+                                    <span class="text-muted">No category</span>
+                                    {% endif %}
+                                </td>
+                                <td>{{ post.updated_at.strftime('%b %d, %Y') }}</td>
+                                <td>
+                                    <a href="{{ url_for('admin_post_edit', post_id=post.id) }}" class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    {% if post.status == 'published' %}
+                                    <a href="{{ url_for('blog_post', slug=post.slug) }}" class="btn btn-outline-secondary btn-sm" target="_blank">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="text-center py-4">
+                    <i class="fas fa-file-alt fa-3x text-muted mb-3"></i>
+                    <h5 class="text-white">No posts yet</h5>
+                    <p class="text-muted">Create your first blog post to get started!</p>
+                    <a href="{{ url_for('admin_post_new') }}" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>Create First Post
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0 text-white">Quick Actions</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('admin_post_new') }}" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>New Post
+                    </a>
+                    <a href="{{ url_for('admin_category_new') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-tag me-2"></i>New Category
+                    </a>
+                    <a href="{{ url_for('blog_index') }}" class="btn btn-outline-secondary" target="_blank">
+                        <i class="fas fa-external-link-alt me-2"></i>View Blog
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

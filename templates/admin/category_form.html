@@ -1,0 +1,143 @@
+<!-- templates/admin/category_form.html -->
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title }} - Admin{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1 class="h3 mb-0">{{ title }}</h1>
+        <p class="text-muted">
+            {% if category %}
+            Edit category details
+            {% else %}
+            Create a new category to organize your posts
+            {% endif %}
+        </p>
+    </div>
+    <div class="col-auto">
+        <a href="{{ url_for('admin_categories') }}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i>Back to Categories
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Category Details</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" novalidate>
+                    {{ form.hidden_tag() }}
+                    
+                    <div class="mb-3">
+                        {{ form.name.label(class="form-label") }}
+                        {{ form.name(class="form-control" + (" is-invalid" if form.name.errors else "")) }}
+                        {% if form.name.errors %}
+                        <div class="invalid-feedback">
+                            {% for error in form.name.errors %}{{ error }}{% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form.description.label(class="form-label") }}
+                        <small class="text-muted">(Optional description for this category)</small>
+                        {{ form.description(class="form-control", rows="3") }}
+                    </div>
+
+                    <div class="mb-4">
+                        {{ form.color.label(class="form-label") }}
+                        <div class="input-group">
+                            {{ form.color(class="form-control", type="color", value="#007bff") }}
+                            <span class="input-group-text">Color for badges and tags</span>
+                        </div>
+                        <div class="form-text">Choose a color to represent this category</div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-2"></i>
+                            {% if category %}Update Category{% else %}Create Category{% endif %}
+                        </button>
+                        <a href="{{ url_for('admin_categories') }}" class="btn btn-outline-secondary">
+                            <i class="fas fa-times me-2"></i>Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Preview</h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted mb-3">This is how your category will look:</p>
+                
+                <div class="border rounded p-3 mb-3">
+                    <span class="badge" style="background-color: #007bff" id="preview-badge">
+                        Category Name
+                    </span>
+                    <p class="mt-2 mb-0 text-muted" id="preview-description">
+                        Category description will appear here
+                    </p>
+                </div>
+
+                {% if category and category.posts %}
+                <div class="mt-4">
+                    <h6>Posts in this category:</h6>
+                    <ul class="list-group list-group-flush">
+                        {% for post in category.posts[:5] %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                            {{ post.title }}
+                            <span class="badge {% if post.status == 'published' %}bg-success{% else %}bg-warning{% endif %}">
+                                {{ post.status }}
+                            </span>
+                        </li>
+                        {% endfor %}
+                        {% if category.posts|length > 5 %}
+                        <li class="list-group-item px-0 text-muted">
+                            ... and {{ category.posts|length - 5 }} more
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Live preview updates
+    const nameInput = document.getElementById('name');
+    const descriptionInput = document.getElementById('description');
+    const colorInput = document.getElementById('color');
+    const previewBadge = document.getElementById('preview-badge');
+    const previewDescription = document.getElementById('preview-description');
+
+    function updatePreview() {
+        const name = nameInput.value || 'Category Name';
+        const description = descriptionInput.value || 'Category description will appear here';
+        const color = colorInput.value || '#007bff';
+        
+        previewBadge.textContent = name;
+        previewBadge.style.backgroundColor = color;
+        previewDescription.textContent = description;
+    }
+
+    nameInput.addEventListener('input', updatePreview);
+    descriptionInput.addEventListener('input', updatePreview);
+    colorInput.addEventListener('input', updatePreview);
+
+    // Initialize preview
+    updatePreview();
+</script>
+{% endblock %>
