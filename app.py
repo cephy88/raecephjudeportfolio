@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import os
 from models import db, Post, Category, AdminUser
 from forms import PostForm, CategoryForm, LoginForm
+from flask_mail import Mail, Message
 
 # Load environment variables
 load_dotenv()
@@ -13,11 +14,20 @@ app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev-secret-key')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///blog.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+# Flask-Mail configuration (use your real credentials in .env)
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', 'smtp.gmail.com')
+app.config['MAIL_PORT'] = int(os.getenv('MAIL_PORT', 587))
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER', app.config['MAIL_USERNAME'])
+
 # Initialize extensions
 db.init_app(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'admin_login'
+mail = Mail(app)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -83,8 +93,24 @@ def projects():
     ]
     return render_template('projects.html', projects=projects)
 
-@app.route('/contact')
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
+    if request.method == 'POST':
+        name = request.form.get('name')
+        email = request.form.get('email')
+        subject = request.form.get('subject')
+        message = request.form.get('message')
+        subscribe = request.form.get('subscribe')
+
+        # Basic validation
+        if not name or not email or not subject or not message:
+            flash('Please fill in all required fields.', 'danger')
+            return redirect(url_for('contact'))
+
+        # Email sending disabled: prompt to use LinkedIn
+        flash('Email sending is currently disabled. For urgent matters, please reach out via LinkedIn: https://www.linkedin.com/in/raeceph-jude-sayson/', 'info')
+        return redirect(url_for('contact'))
+
     return render_template('contact.html')
 
 # Blog routes
