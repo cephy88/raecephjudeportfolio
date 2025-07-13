@@ -55,6 +55,61 @@ body {
     color: #adb5bd !important;
 }
 
+[data-theme="dark"] table th, table th {
+    color: #fff !important;
+    background-color: #23272b !important;
+}
+
+[data-theme="dark"] table td, table td {
+    color: #f8f9fa !important;
+}
+
+[data-theme="dark"] .admin-layout table,
+[data-theme="dark"] .admin-layout table th,
+[data-theme="dark"] .admin-layout table td,
+[data-theme="dark"] .admin-layout table tr,
+[data-theme="dark"] .admin-layout table thead,
+[data-theme="dark"] .admin-layout table tbody,
+[data-theme="dark"] .admin-layout table tbody tr,
+[data-theme="dark"] .admin-layout table tbody td {
+    background-color: #23272b !important;
+    color: #e0e0e0 !important;
+}
+
+[data-theme="dark"] .admin-layout table th {
+    color: #f8f9fa !important;
+    font-weight: bold;
+}
+
+[data-theme="dark"] .admin-layout table td {
+    color: #e0e0e0 !important;
+}
+
+[data-theme="dark"] .admin-layout a, [data-theme="dark"] .admin-layout .btn, [data-theme="dark"] .admin-layout .badge {
+    color: #f8f9fa !important;
+}
+
+[data-theme="dark"] .admin-layout .badge[style] {
+    color: #23272b !important;
+    font-weight: bold;
+}
+
+[data-theme="dark"] .admin-layout .card,
+[data-theme="dark"] .admin-layout .card-header,
+[data-theme="dark"] .admin-layout .card-body,
+[data-theme="dark"] .admin-layout .form-control,
+[data-theme="dark"] .admin-layout .form-select,
+[data-theme="dark"] .admin-layout .input-group-text {
+    background-color: #23272b !important;
+    color: #f8f9fa !important;
+    border-color: #495057 !important;
+}
+
+[data-theme="dark"] .admin-layout .form-label,
+[data-theme="dark"] .admin-layout label {
+    color: #f8f9fa !important;
+}
+
 /* ============================================
    NAVIGATION
 ============================================ */
@@ -397,6 +452,19 @@ body {
     background-color: var(--dark-color);
 }
 
+/* Light mode admin table styles */
+.admin-layout table,
+.admin-layout table th,
+.admin-layout table td,
+.admin-layout table tr,
+.admin-layout table thead,
+.admin-layout table tbody,
+.admin-layout table tbody tr,
+.admin-layout table tbody td {
+    background-color: #fff !important;
+    color: #23272b !important;
+}
+
 /* ============================================
    DARK THEME ADMIN COMPATIBILITY
 ============================================ */
@@ -414,6 +482,18 @@ body {
 
 [data-theme="dark"] .admin-layout .card {
     background-color: #343a40;
+}
+
+[data-theme="dark"] .admin-layout table th,
+[data-theme="dark"] .admin-layout table td,
+.admin-layout[data-theme="dark"] table th,
+.admin-layout[data-theme="dark"] table td {
+    color: #fff !important;
+    background-color: #23272b !important;
+}
+[data-theme="dark"] .admin-layout table td,
+.admin-layout[data-theme="dark"] table td {
+    color: #f8f9fa !important;
 }
 
 /* ============================================
