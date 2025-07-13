@@ -8,14 +8,14 @@
 <!-- Stats Cards -->
 <div class="row g-4 mb-5">
     <div class="col-sm-6 col-xl-3">
-        <div class="card stat-card text-white h-100">
+        <div class="card stat-card bg-dark text-white h-100">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <div class="h2 mb-1 fw-bold">{{ stats.total_posts }}</div>
-                        <div class="small opacity-75">Total Posts</div>
+                        <div class="h2 mb-1 fw-bold text-primary">{{ stats.total_posts }}</div>
+                        <div class="small opacity-75 text-white">Total Posts</div>
                     </div>
-                    <div class="fa-3x opacity-50">
+                    <div class="fa-3x opacity-50 text-white">
                         <i class="fas fa-file-alt"></i>
                     </div>
                 </div>
@@ -29,9 +29,9 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <div class="h2 mb-1 fw-bold">{{ stats.published_posts }}</div>
-                        <div class="small opacity-75">Published</div>
+                        <div class="small opacity-75 text-white">Published</div>
                     </div>
-                    <div class="fa-3x opacity-50">
+                    <div class="fa-3x opacity-50 text-white">
                         <i class="fas fa-check-circle"></i>
                     </div>
                 </div>
@@ -40,14 +40,14 @@
     </div>
     
     <div class="col-sm-6 col-xl-3">
-        <div class="card stat-card bg-warning text-white h-100">
+        <div class="card stat-card bg-warning text-dark h-100">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <div class="h2 mb-1 fw-bold">{{ stats.draft_posts }}</div>
-                        <div class="small opacity-75">Drafts</div>
+                        <div class="small opacity-75 text-dark">Drafts</div>
                     </div>
-                    <div class="fa-3x opacity-50">
+                    <div class="fa-3x opacity-50 text-dark">
                         <i class="fas fa-edit"></i>
                     </div>
                 </div>
@@ -61,9 +61,9 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <div class="h2 mb-1 fw-bold">{{ stats.categories }}</div>
-                        <div class="small opacity-75">Categories</div>
+                        <div class="small opacity-75 text-white">Categories</div>
                     </div>
-                    <div class="fa-3x opacity-50">
+                    <div class="fa-3x opacity-50 text-white">
                         <i class="fas fa-tags"></i>
                     </div>
                 </div>
