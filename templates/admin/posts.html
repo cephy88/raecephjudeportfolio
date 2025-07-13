@@ -6,7 +6,7 @@
 {% block content %}
 <div class="row mb-4">
     <div class="col">
-        <h1 class="h3 mb-0">Posts</h1>
+        <h1 class="h3 mb-0 text-primary">Posts</h1>
         <p class="text-muted">Manage your blog posts</p>
     </div>
     <div class="col-auto">
@@ -17,23 +17,23 @@
 </div>
 
 <!-- Filter Tabs -->
-<div class="card">
+<div class="card bg-dark text-white">
     <div class="card-header">
         <ul class="nav nav-tabs card-header-tabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link {% if status_filter == 'all' %}active{% endif %}" 
+                <a class="nav-link {% if status_filter == 'all' %}active{% endif %} text-primary" 
                    href="{{ url_for('admin_posts', status='all') }}">
                     All Posts
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if status_filter == 'published' %}active{% endif %}" 
+                <a class="nav-link {% if status_filter == 'published' %}active{% endif %} text-success" 
                    href="{{ url_for('admin_posts', status='published') }}">
                     Published
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {% if status_filter == 'draft' %}active{% endif %}" 
+                <a class="nav-link {% if status_filter == 'draft' %}active{% endif %} text-warning" 
                    href="{{ url_for('admin_posts', status='draft') }}">
                     Drafts
                 </a>
@@ -44,7 +44,7 @@
     <div class="card-body">
         {% if posts.items %}
         <div class="table-responsive">
-            <table class="table table-hover">
+            <table class="table table-dark table-hover">
                 <thead>
                     <tr>
                         <th>Title</th>
@@ -67,13 +67,13 @@
                             </div>
                         </td>
                         <td>
-                            <span class="badge {% if post.status == 'published' %}bg-success{% else %}bg-warning{% endif %}">
+                            <span class="badge {% if post.status == 'published' %}bg-success{% else %}bg-warning text-dark{% endif %}">
                                 {{ post.status.title() }}
                             </span>
                         </td>
                         <td>
                             {% if post.category %}
-                            <span class="badge" style="background-color: {{ post.category.color }}">
+                            <span class="badge" style="background-color: {{ post.category.color }}; color: #fff;">
                                 {{ post.category.name }}
                             </span>
                             {% else %}
