@@ -1,5 +1,3 @@
-<!-- 1. UPDATE templates/admin/base.html -->
-<!-- Replace the old CKEditor script with this: -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,32 +10,36 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
     <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 </head>
-<body class="admin-layout">
+<body class="admin-layout bg-dark text-white">
     <!-- Admin Sidebar -->
-    <div class="admin-sidebar">
-        <div class="admin-sidebar-header">
+    <div class="admin-sidebar bg-dark text-white">
+        <div class="admin-sidebar-header d-flex align-items-center justify-content-between">
             <h4 class="text-white mb-0">
                 <i class="fas fa-cog me-2"></i>RJ Admin
             </h4>
+            <!-- Theme Toggle Switch -->
+            <button id="admin-theme-toggle" class="btn btn-outline-light btn-sm ms-2" title="Toggle Light/Dark Mode">
+                <i class="fas fa-moon" id="admin-theme-icon"></i>
+            </button>
         </div>
         
         <nav class="admin-nav">
-            <a class="admin-nav-link" href="{{ url_for('admin_dashboard') }}">
+            <a class="admin-nav-link text-white" href="{{ url_for('admin_dashboard') }}">
                 <i class="fas fa-tachometer-alt me-2"></i>Dashboard
             </a>
-            <a class="admin-nav-link" href="{{ url_for('admin_posts') }}">
+            <a class="admin-nav-link text-white" href="{{ url_for('admin_posts') }}">
                 <i class="fas fa-file-alt me-2"></i>Posts
             </a>
-            <a class="admin-nav-link" href="{{ url_for('admin_categories') }}">
+            <a class="admin-nav-link text-white" href="{{ url_for('admin_categories') }}">
                 <i class="fas fa-tags me-2"></i>Categories
             </a>
             
             <hr class="admin-nav-divider">
             
-            <a class="admin-nav-link" href="{{ url_for('blog_index') }}" target="_blank">
+            <a class="admin-nav-link text-white" href="{{ url_for('blog_index') }}" target="_blank">
                 <i class="fas fa-external-link-alt me-2"></i>View Blog
             </a>
-            <a class="admin-nav-link" href="{{ url_for('home') }}" target="_blank">
+            <a class="admin-nav-link text-white" href="{{ url_for('home') }}" target="_blank">
                 <i class="fas fa-home me-2"></i>View Site
             </a>
             <a class="admin-nav-link text-danger" href="{{ url_for('admin_logout') }}">
@@ -47,11 +49,11 @@
     </div>
 
     <!-- Main Content -->
-    <div class="admin-content">
+    <div class="admin-content bg-dark text-white">
         <div class="admin-header">
             <div class="d-flex justify-content-between align-items-center">
                 <div>
-                    <h2 class="text-white mb-0">{% block page_title %}Dashboard{% endblock %}</h2>
+                    <h2 class="text-primary mb-0">{% block page_title %}Dashboard{% endblock %}</h2>
                     <p class="text-muted mb-0">{% block page_subtitle %}Manage your blog content{% endblock %}</p>
                 </div>
                 <div>
@@ -88,3 +90,82 @@
     {% block scripts %}{% endblock %}
 </body>
 </html>
+
+<style>
+:root {
+    --admin-bg-dark: #23272b;
+    --admin-bg-light: #fff;
+    --admin-text-dark: #23272b;
+    --admin-text-light: #f8f9fa;
+    --admin-primary: #007bff;
+}
+[data-theme="dark"] .admin-sidebar, .admin-sidebar {
+    background-color: var(--admin-bg-dark) !important;
+    color: var(--admin-text-light) !important;
+}
+[data-theme="dark"] .admin-content, .admin-content {
+    background-color: #181a1b !important;
+    color: var(--admin-text-light) !important;
+}
+[data-theme="dark"] .card, .card {
+    background-color: var(--admin-bg-dark) !important;
+    color: var(--admin-text-light) !important;
+}
+[data-theme="dark"] .text-muted {
+    color: #adb5bd !important;
+}
+[data-theme="dark"] .bg-primary, .bg-primary {
+    background-color: var(--admin-primary) !important;
+    color: #fff !important;
+}
+[data-theme="dark"] .btn-primary {
+    background-color: var(--admin-primary) !important;
+    color: #fff !important;
+}
+[data-theme="dark"] .btn-outline-secondary {
+    color: #adb5bd !important;
+    border-color: #adb5bd !important;
+}
+[data-theme="dark"] .btn-outline-secondary:hover {
+    background-color: #adb5bd !important;
+    color: #23272b !important;
+}
+.admin-nav-link, .admin-nav-link * {
+    color: var(--admin-text-light) !important;
+}
+.admin-header h2, .admin-header p, .admin-header .btn {
+    color: var(--admin-primary) !important;
+}
+.admin-header .btn {
+    color: #fff !important;
+}
+.card-header, .card-title, .card-body, .table, .table th, .table td {
+    color: var(--admin-text-light) !important;
+}
+</style>
+<script>
+// Admin Theme Toggle
+document.addEventListener('DOMContentLoaded', function() {
+    const themeToggle = document.getElementById('admin-theme-toggle');
+    const themeIcon = document.getElementById('admin-theme-icon');
+    const body = document.body;
+    // Check for saved theme preference or default to 'dark'
+    const currentTheme = localStorage.getItem('admin-theme') || 'dark';
+    body.setAttribute('data-theme', currentTheme);
+    updateThemeIcon(currentTheme);
+    themeToggle.addEventListener('click', function() {
+        const currentTheme = body.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        body.setAttribute('data-theme', newTheme);
+        localStorage.setItem('admin-theme', newTheme);
+        updateThemeIcon(newTheme);
+    });
+    function updateThemeIcon(theme) {
+        if (theme === 'dark') {
+            themeIcon.className = 'fas fa-sun';
+        } else {
+            themeIcon.className = 'fas fa-moon';
+        }
+    }
+});
+</script>
