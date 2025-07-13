@@ -4,9 +4,10 @@
 {% block title %}Categories - Admin{% endblock %}
 
 {% block content %}
+
 <div class="row mb-4">
     <div class="col">
-        <h1 class="h3 mb-0">Categories</h1>
+        <h1 class="h3 mb-0 text-primary">Categories</h1>
         <p class="text-muted">Organize your blog posts with categories</p>
     </div>
     <div class="col-auto">
@@ -16,11 +17,11 @@
     </div>
 </div>
 
-<div class="card">
+<div class="card bg-dark text-white">
     <div class="card-body">
         {% if categories %}
         <div class="table-responsive">
-            <table class="table table-hover">
+            <table class="table table-dark table-hover">
                 <thead>
                     <tr>
                         <th>Name</th>
