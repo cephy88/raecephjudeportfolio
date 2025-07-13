@@ -7,7 +7,7 @@
 {% block content %}
 <div class="row mb-4">
     <div class="col">
-        <h1 class="h3 mb-0 text-white">{{ title }}</h1>
+        <h1 class="h3 mb-0 text-primary">{{ title }}</h1>
         <p class="text-muted">
             {% if post %}
             Edit your blog post
@@ -28,15 +28,15 @@
     
     <div class="row">
         <div class="col-lg-8">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0 text-white">Post Content</h5>
+            <div class="card bg-dark text-white">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Post Content</h5>
                 </div>
                 <div class="card-body">
                     <!-- Title -->
                     <div class="mb-3">
                         {{ form.title.label(class="form-label text-white") }}
-                        {{ form.title(class="form-control" + (" is-invalid" if form.title.errors else "")) }}
+                        {{ form.title(class="form-control bg-light text-dark" + (" is-invalid" if form.title.errors else "")) }}
                         {% if form.title.errors %}
                         <div class="invalid-feedback">
                             {% for error in form.title.errors %}{{ error }}{% endfor %}
@@ -63,7 +63,7 @@
                     <div class="mb-3">
                         {{ form.excerpt.label(class="form-label text-white") }}
                         <small class="text-muted">(Optional short description for post previews)</small>
-                        {{ form.excerpt(class="form-control", rows="3") }}
+                        {{ form.excerpt(class="form-control bg-light text-dark", rows="3") }}
                         {% if form.excerpt.errors %}
                         <div class="invalid-feedback">
                             {% for error in form.excerpt.errors %}{{ error }}{% endfor %}
@@ -75,21 +75,21 @@
         </div>
         
         <div class="col-lg-4">
-            <div class="card">
-                <div class="card-header">
-                    <h5 class="mb-0 text-white">Post Settings</h5>
+            <div class="card bg-dark text-white">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Post Settings</h5>
                 </div>
                 <div class="card-body">
                     <!-- Status -->
                     <div class="mb-3">
                         {{ form.status.label(class="form-label text-white") }}
-                        {{ form.status(class="form-select") }}
+                        {{ form.status(class="form-select bg-light text-dark") }}
                     </div>
 
                     <!-- Category -->
                     <div class="mb-3">
                         {{ form.category_id.label(class="form-label text-white") }}
-                        {{ form.category_id(class="form-select") }}
+                        {{ form.category_id(class="form-select bg-light text-dark") }}
                         <div class="form-text">
                             <a href="{{ url_for('admin_category_new') }}" class="text-decoration-none text-primary">
                                 <i class="fas fa-plus me-1"></i>Add new category
@@ -101,7 +101,7 @@
                     <div class="mb-3">
                         {{ form.featured_image.label(class="form-label text-white") }}
                         <small class="text-muted">(Optional image URL)</small>
-                        {{ form.featured_image(class="form-control") }}
+                        {{ form.featured_image(class="form-control bg-light text-dark") }}
                     </div>
 
                     <!-- Action Buttons -->
@@ -145,6 +145,11 @@
     background-color: #fff;
     color: #333;
     border-radius: 0.375rem;
+}
+
+[data-theme="dark"] .ck-editor__editable {
+    background-color: #23272b;
+    color: #f8f9fa;
 }
 
 .ck-toolbar {
